@@ -1,0 +1,44 @@
+name: CI
+on:
+  push:
+    branches: ["*"]
+    paths:
+      - "Dockerfile"
+  pull_request:
+    branches: ["*"]
+    paths-ignore:
+      - "**.md"
+      - "LICENSE"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow}}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cgroup-v1:
+    uses: trfore/docker-image/.github/workflows/test_systemd.yml@main
+    with:
+      continue-on-error: true
+      runner: ubuntu-20.04
+      volume-permission: ro
+
+  cgroup-v2:
+    uses: trfore/docker-image/.github/workflows/test_systemd.yml@main
+    with:
+      continue-on-error: false
+      runner: ubuntu-22.04
+      volume-permission: rw
+
+  check:
+    runs-on: ubuntu-latest
+    needs:
+      - cgroup-v1
+      - cgroup-v2
+    if: success() || failure()
+    steps:
+      - run: >-
+          python -c "assert set([
+          '${{ needs.cgroup-v1.result }}',
+          '${{ needs.cgroup-v2.result }}',
+          ]) == {'success'}"
