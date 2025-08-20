@@ -3,6 +3,7 @@
 
 # dev environments
 .venv/
+.private/
 
 # general extras
 .DS_Store
