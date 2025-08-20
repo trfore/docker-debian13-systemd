@@ -48,7 +48,7 @@ or merged to the `main` branch. But if you need to build the image on your own l
 
 - Install [docker]
 - Build an image locally (see above) or pull from Docker Hub: `docker pull trfore/docker-debian13-systemd:latest`
- - **On Docker with Cgroup V2 (e.g. Ubuntu 22.04)**, run a container from the image:
+- **On Docker with Cgroup V2 (e.g. Ubuntu 22.04)**, run a container from the image:
 
   ```sh
   docker run -d -it --name debian13-systemd --privileged --cgroupns=host --tmpfs=/run --tmpfs=/tmp --volume=/sys/fs/cgroup:/sys/fs/cgroup:rw trfore/docker-debian13-systemd:latest
@@ -68,6 +68,12 @@ or merged to the `main` branch. But if you need to build the image on your own l
   ```sh
   podman run -d -it --name debian13-systemd docker.io/trfore/docker-debian13-systemd:latest
   ```
+
+## Note on Systemd Status
+
+Starting with **systemd 256**, a taint is applied when `/bin` and `/sbin` are not symlinked/merged. This image uses
+**systemd 257.7-1**, so calling `systemd status` you will see `Tainted: unmerged-bin` in the stdout.
+[See links below](#systemd-unmerged-bin-taint) for details.
 
 ## Additional Images
 
@@ -90,6 +96,13 @@ or merged to the `main` branch. But if you need to build the image on your own l
 - <https://developers.redhat.com/blog/2016/09/13/running-systemd-in-a-non-privileged-container>
 - [github runner - ubuntu 22.04] preinstalled software
 - [github runner - ubuntu 24.04] preinstalled software
+
+### Systemd Unmerged Bin Taint
+
+- <https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1085370>
+- <https://github.com/systemd/systemd/issues/35438>
+- <https://github.com/systemd/systemd/pull/38531>
+- <https://news.ycombinator.com/item?id=44852700>
 
 [centos-stream]: https://quay.io/repository/centos/centos?tab=tags
 [debian]: https://hub.docker.com/_/debian/
