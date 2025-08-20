@@ -1,9 +1,9 @@
-# docker-{DISTRO}-systemd
+# docker-debian13-systemd
 
-[![CI](https://github.com/trfore/docker-image/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/trfore/docker-image/actions/workflows/ci.yml)
-[![CD](https://github.com/trfore/docker-image/actions/workflows/cd.yml/badge.svg?branch=main)](https://github.com/trfore/docker-image/actions/workflows/cd.yml)
+[![CI](https://github.com/trfore/docker-debian13-systemd/actions/workflows/ci.yml/badge.svg?event=pull_request)](https://github.com/trfore/docker-debian13-systemd/actions/workflows/ci.yml)
+[![CD](https://github.com/trfore/docker-debian13-systemd/actions/workflows/cd.yml/badge.svg)](https://github.com/trfore/docker-debian13-systemd/actions/workflows/cd.yml)
 
-A minimal systemd enabled {DISTRO} Docker image for testing Ansible roles with Molecule.
+A minimal systemd enabled Debian 13 (Trixie) Docker image for testing Ansible roles with Molecule.
 
 NOTE: This image does NOT contain Ansible tooling, e.g. `ansible-core` or `yamllint`. Thus, the use case is as target
 host for Ansible controllers or within the Molecule `create`/`converge`/`test` cycle.
@@ -11,7 +11,7 @@ host for Ansible controllers or within the Molecule `create`/`converge`/`test` c
 ## Docker Pull Command
 
 ```sh
-docker pull trfore/docker-{DISTRO}-systemd
+docker pull trfore/docker-debian13-systemd
 ```
 
 ## How to Build
@@ -20,18 +20,9 @@ This image is built on Docker Hub automatically any time the upstream OS image i
 or merged to the `main` branch. But if you need to build the image on your own locally, do the following:
 
 1. Install [docker]
-2. Clone the repo
-
-   ```sh
-   git clone https://github.com/trfore/docker-{DISTRO}-systemd.git
-   ```
-
+2. Clone the repo, `git clone https://github.com/trfore/docker-debian13-systemd.git`
 3. `cd` into the directory
-4. Run
-
-   ```sh
-   docker build --tag trfore/docker-{DISTRO}-systemd .
-   ```
+4. Run `docker build --tag trfore/docker-debian13-systemd .`
 
 ## How to Use
 
@@ -41,9 +32,8 @@ or merged to the `main` branch. But if you need to build the image on your own l
 
   ```yaml
   platforms:
-    - name: ${MOLECULE_NAME:-instance}
-      image: ${MOLECULE_IMAGE:-trfore/docker-{DISTRO}-systemd}
-      command: ${MOLECULE_COMMAND:-""}
+    - name: instance
+      image: trfore/docker-debian13-systemd:latest
       tmpfs:
         - /run
         - /tmp
@@ -57,17 +47,17 @@ or merged to the `main` branch. But if you need to build the image on your own l
 ### Interactively Using Docker
 
 - Install [docker]
-- Build an image locally (see above) or pull from Docker Hub: `docker pull trfore/docker-{DISTRO}-systemd:latest`
-- Run a container from the image:
+- Build an image locally (see above) or pull from Docker Hub: `docker pull trfore/docker-debian13-systemd:latest`
+ - **On Docker with Cgroup V2 (e.g. Ubuntu 22.04)**, run a container from the image:
 
   ```sh
-  docker run -d -it --name {DISTRO}-systemd --privileged --cgroupns=host --tmpfs=/run --tmpfs=/tmp --volume=/sys/fs/cgroup:/sys/fs/cgroup:rw trfore/docker-{DISTRO}-systemd:latest
+  docker run -d -it --name debian13-systemd --privileged --cgroupns=host --tmpfs=/run --tmpfs=/tmp --volume=/sys/fs/cgroup:/sys/fs/cgroup:rw trfore/docker-debian13-systemd:latest
   ```
 
 - Use it, example:
 
   ```sh
-  docker exec -it {DISTRO}-systemd /bin/bash
+  docker exec -it debian13-systemd /bin/bash
   ```
 
 ### Using Podman
@@ -76,7 +66,7 @@ or merged to the `main` branch. But if you need to build the image on your own l
   filesystem. See [Podman Docs: Commands `run --systemd`] for details.
 
   ```sh
-  podman run -d -it --name {DISTRO}-systemd docker.io/trfore/docker-{DISTRO}-systemd:latest
+  podman run -d -it --name debian13-systemd docker.io/trfore/docker-debian13-systemd:latest
   ```
 
 ## Additional Images
@@ -89,31 +79,20 @@ or merged to the `main` branch. But if you need to build the image on your own l
 | [Debian 11][debian]              | [docker-debian11-systemd]   | [trfore/docker-debian11-systemd]   |
 | [Debian 12][debian]              | [docker-debian12-systemd]   | [trfore/docker-debian12-systemd]   |
 | [Debian 13][debian]              | [docker-debian13-systemd]   | [trfore/docker-debian13-systemd]   |
-| [Fedora][fedora]                 | [docker-fedora40-systemd]   | [trfore/docker-fedora40-systemd]   |
 | [Ubuntu 20.04][ubuntu]           | [docker-ubuntu2004-systemd] | [trfore/docker-ubuntu2004-systemd] |
 | [Ubuntu 22.04][ubuntu]           | [docker-ubuntu2204-systemd] | [trfore/docker-ubuntu2204-systemd] |
 | [Ubuntu 24.04][ubuntu]           | [docker-ubuntu2404-systemd] | [trfore/docker-ubuntu2404-systemd] |
-
-## Maintainers
-
-Taylor Fore (<https://github.com/trfore>)
-
-## Acknowledgements
-
-Inspired by Jeff Geerling's ([@geerlingguy](https://github.com/geerlingguy)), CentOS 8, Debian 10/11, and Ubuntu 20/22
-docker images for ansible, [geerlingguy/docker-\*-ansible](https://github.com/geerlingguy?tab=repositories&q=docker-ansible).
 
 ## References
 
 - <https://molecule.readthedocs.io/en/stable/index.html>
 - <https://molecule.readthedocs.io/en/stable/examples.html#systemd-container>
 - <https://developers.redhat.com/blog/2016/09/13/running-systemd-in-a-non-privileged-container>
-- [github runner - ubuntu 20.04] preinstalled software
 - [github runner - ubuntu 22.04] preinstalled software
+- [github runner - ubuntu 24.04] preinstalled software
 
 [centos-stream]: https://quay.io/repository/centos/centos?tab=tags
 [debian]: https://hub.docker.com/_/debian/
-[fedora]: https://quay.io/repository/fedora/fedora?tab=tags
 [docker]: https://docs.docker.com/engine/installation/
 [ubuntu]: https://hub.docker.com/_/ubuntu/
 [docker-centos8-systemd]: https://github.com/trfore/docker-centos8-systemd/blob/main/Dockerfile
@@ -122,7 +101,6 @@ docker images for ansible, [geerlingguy/docker-\*-ansible](https://github.com/ge
 [docker-debian11-systemd]: https://github.com/trfore/docker-debian11-systemd/blob/main/Dockerfile
 [docker-debian12-systemd]: https://github.com/trfore/docker-debian12-systemd/blob/main/Dockerfile
 [docker-debian13-systemd]: https://github.com/trfore/docker-debian13-systemd/blob/main/Dockerfile
-[docker-fedora40-systemd]: https://github.com/trfore/docker-fedora40-systemd/blob/main/Dockerfile
 [docker-ubuntu2004-systemd]: https://github.com/trfore/docker-ubuntu2004-systemd/blob/main/Dockerfile
 [docker-ubuntu2204-systemd]: https://github.com/trfore/docker-ubuntu2204-systemd/blob/main/Dockerfile
 [docker-ubuntu2404-systemd]: https://github.com/trfore/docker-ubuntu2404-systemd/blob/main/Dockerfile
@@ -132,10 +110,9 @@ docker images for ansible, [geerlingguy/docker-\*-ansible](https://github.com/ge
 [trfore/docker-debian11-systemd]: https://hub.docker.com/r/trfore/docker-debian11-systemd
 [trfore/docker-debian12-systemd]: https://hub.docker.com/r/trfore/docker-debian12-systemd
 [trfore/docker-debian13-systemd]: https://hub.docker.com/r/trfore/docker-debian13-systemd
-[trfore/docker-fedora40-systemd]: https://hub.docker.com/r/trfore/docker-fedora40-systemd
 [trfore/docker-ubuntu2004-systemd]: https://hub.docker.com/r/trfore/docker-ubuntu2004-systemd
 [trfore/docker-ubuntu2204-systemd]: https://hub.docker.com/r/trfore/docker-ubuntu2204-systemd
 [trfore/docker-ubuntu2404-systemd]: https://hub.docker.com/r/trfore/docker-ubuntu2404-systemd
-[github runner - ubuntu 20.04]: https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2004-Readme.md
 [github runner - ubuntu 22.04]: https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
+[github runner - ubuntu 24.04]: https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
 [Podman Docs: Commands `run --systemd`]: https://docs.podman.io/en/latest/markdown/podman-run.1.html#systemd-true-false-always
