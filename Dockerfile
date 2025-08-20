@@ -3,7 +3,7 @@ FROM docker.io/library/debian:trixie${BASEOS_DIGEST:-}
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-  ca-certificates iproute2 procps systemd systemd-sysv sudo \
+  ca-certificates iproute2 procps libkmod2 systemd systemd-sysv sudo \
   libffi-dev libssl-dev python3 \
   && rm -Rf /var/lib/apt/lists/* \
   && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
