@@ -1,6 +1,6 @@
 # docker-debian13-systemd
 
-[![CI](https://github.com/trfore/docker-debian13-systemd/actions/workflows/ci.yml/badge.svg?event=pull_request)](https://github.com/trfore/docker-debian13-systemd/actions/workflows/ci.yml)
+[![CI](https://github.com/trfore/docker-debian13-systemd/actions/workflows/ci.yml/badge.svg)](https://github.com/trfore/docker-debian13-systemd/actions/workflows/ci.yml)
 [![CD](https://github.com/trfore/docker-debian13-systemd/actions/workflows/cd.yml/badge.svg)](https://github.com/trfore/docker-debian13-systemd/actions/workflows/cd.yml)
 
 A minimal systemd enabled Debian 13 (Trixie) Docker image for testing Ansible roles with Molecule.
