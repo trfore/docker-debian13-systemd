@@ -1,1 +1,1 @@
-{ "baseos": { "name": "docker.io/library/debian", "digest": "sha256:8f6a88feef3ed01a300dafb87f208977f39dccda1fd120e878129463f7fa3b8f", "layer": "sha256:53c88f1dfeb79b2f207f7f1a03a45e0dc5ed208b9f496de16b98f81189dc0392", "created": "2025-11-17T00:00:00Z" } }
+{ "baseos": { "name": "docker.io/library/debian", "digest": "sha256:0d01188e8dd0ac63bf155900fad49279131a876a1ea7fac917c62e87ccb2732d", "layer": "sha256:2981f7e8980b9f4b6605026e1c5f99b4971ebba15f626e46904554de09f324f4", "created": "2025-12-08T00:00:00Z" } }
